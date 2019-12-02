@@ -58,26 +58,38 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  function removeTransition(e) {
-    if (e.propertyName !== 'transform') return;
-    e.target.classList.remove('playing');
-  }
+//add keydown event listener
+window.addEventListener("keydown",function(event){
+  const audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+  const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
+// if no key in list is pressed return null;
+  if (!audio) return;
+// else reset the audio time every time key is press
+  audio.currentTime = 0;
+  audio.play();
 
-  function playSound(e) {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
-    if (!audio) return;
+// add style to key if key is pressed  
+  key.classList.add("playing");
+});
 
-    key.classList.add('playing');
-    audio.currentTime = 0;
-    audio.play();
-  }
 
-  const keys = Array.from(document.querySelectorAll('.key'));
-  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-  window.addEventListener('keydown', playSound);
+//get key array 
+let keys = document.querySelectorAll(".key");
+keys.forEach(key => key.addEventListener("transitionend",function(event){
+  //6 event transition-end ocurr when pressed button so get 1 of them
+  if (event.propertyName !== "transform") return;
+
+  // "this" here is the "key" element itself, so remove it's class
+  this.classList.remove("playing");
+}))
+//add transition-end event listener to remove style of pressed key
+
+
+
+
+
 </script>
 
 
 </body>
-</html>
+</html> 
