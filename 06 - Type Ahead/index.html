@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Type Ahead 👀</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<form class="search-form">
+			<input type="text" class="search" placeholder="City or State" />
+			<ul class="suggestions">
+				<li>Filter for a city</li>
+				<li>or a state</li>
+			</ul>
+		</form>
+		<script>
+			const endpoint =
+				"https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+                
+                const cities = [];
+                
+                //get data using Promise
+                fetch(endpoint)
+                .then(raw => raw.json())
+                .then(data => cities.push(...data));
+    
+                function displayCity(){
+                    let input = this.value;
+                    let html = "";
+                    let matchedCity = Array.from(findCity(input,cities));
+                    let word = new RegExp(input,"gi");
+                    matchedCity.forEach(city => {
+                        let name = city.city.replace(word,"<span class='hl'>" +`${input}`+"</span>");
+                        let state = city.state.replace(word,"<span class='hl'>" +`${input}`+"</span>");
+                        html += `
+                        <li><span class="name">${name},${state}</span><span class="population">${city.population}</></li>
+                        `
+                    })
+                    
+                    suggestions.innerHTML = html;
+                };
+
+                
+                function findCity(word,cities){
+                    return cities.filter(function(matched){
+                        let regex = new RegExp(word,"gi");
+                        return matched.city.match(regex) || matched.state.match(regex);
+                    })
+                    
+                }
+                
+                let searchInput = document.querySelector(".search");
+                let suggestions = document.querySelector(".suggestions");
+                
+                searchInput.addEventListener("change",displayCity);
+                searchInput.addEventListener("keyup",displayCity);
+                
+                
+		</script>
+	</body>
+</html>
