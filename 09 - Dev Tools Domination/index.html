@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Console Tricks!</title>
+	</head>
+	<body>
+		<p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+		<script>
+			const dogs = [
+				{ name: "Snickers", age: 2 },
+				{ name: "hugo", age: 8 }
+			];
+
+			function makeGreen() {
+				const p = document.querySelector("p");
+				p.style.color = "#BADA55";
+				p.style.fontSize = "50px";
+			}
+
+			// Regular
+			console.log("abc");
+
+			// Interpolated
+			console.log("Hello tui la cuc %s !", "💩");
+
+			// Styled
+			console.log('%c Chu to', 'font-size:100px; background:green; text-shadow: 10px 10px 0 blue')
+
+			// warning!
+			console.warn("Den Vang");
+
+			// Error :|
+			console.error("Den Do");
+
+			// Info
+			console.info("Den xanh");
+
+			// Testing
+			const p = document.querySelector("p");
+
+			console.assert(p.classList.contains("hi"), "Tao Lao!");
+
+			// clearing
+
+			// Viewing DOM Elements
+			console.log(p);
+			console.dir(p);
+
+
+			// Grouping together
+			dogs.forEach(dog => {
+				console.groupCollapsed(`${dog.name}`);
+				console.log(`Day la ${dog.name}`);
+				console.log(`${dog.name} duoc ${dog.age} tuoi roi`);
+				console.log(`${dog.name} duoc ${dog.age * 7} tuoi cho roi`);
+				console.groupEnd(`${dog.name}`);
+			});
+
+			// counting
+
+			console.count("An");
+			console.count("An");
+			console.count("Khang");
+			console.count("Khang");
+			console.count("An");
+			console.count("Khang");
+			console.count("An");
+			console.count("Khang");
+			console.count("Khang");
+
+			// timing
+			console.time("Dang tai");
+			fetch("https://znews-photo.zadn.vn/w660/Uploaded/bpmoqwq1/2014_10_16/con_meo.jpg")
+					.then(data => {
+					console.timeEnd("Da tai xong, dang xu ly du lieu");
+					console.log(data);
+				});
+		</script>
+	</body>
+</html>
